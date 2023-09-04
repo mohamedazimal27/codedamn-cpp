@@ -21,7 +21,22 @@ int main() {
     cin >> y;
     if (x > 0 && y > 0)
     {
-        
+        cout << x + y << endl;
+        cout << x * y << endl;
+    }
+    else if( x < 0 && y < 0)
+    {
+        cout << x - y << endl;
+        cout << x / y << endl;
+    }
+    else if(x > 0 && y < 0)
+    {
+        cout << x * y << endl;
+        cout << x / y << endl;
+    }
+    else
+    {
+        cout << 0 << endl;
     }
     return 0;
 }
