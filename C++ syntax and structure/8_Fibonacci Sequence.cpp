@@ -31,7 +31,7 @@ The program should handle invalid input gracefully. If the user enters a non-pos
 Example:
 
 
-Enter a positive integer (n) to generate the Fibonacci sequence: 
+Enter a positive integer (n) to generate the Fibonacci sequence:
 7
 0
 1
@@ -41,3 +41,35 @@ Enter a positive integer (n) to generate the Fibonacci sequence:
 5
 8
 */
+// Lab Template
+
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+    cout << "Hello world" << endl;
+    int num;
+    cin >> num;
+    int firstNum = 0;
+    int secondNum = 1;
+    int thirdNum = 0;
+    for (int i = 0; i < num; i++)
+    {
+        if (i < 2)
+        {
+            cout << i << endl;
+        }
+        else
+        {
+            thirdNum = secondNum + firstNum;
+            cout << thirdNum << endl;
+            firstNum = secondNum;
+            secondNum = thirdNum;
+        }
+    }
+    if (num != 0)
+        cout << endl;
+    return 0;
+}
