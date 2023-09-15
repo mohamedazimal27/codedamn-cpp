@@ -29,8 +29,11 @@ Print a message thanking the user for using the student information system.*/
 
 /*
 Modify the Student class to include a private member variable major, and public member functions setMajor
-and getMajor to allow the user to set and get the student's major.*/
-
+and getMajor to allow the user to set and get the student's major.
+challenge 2:
+Write a program that reads in a list of student information from the user and stores them in an array of Student objects.
+The program should then display the information for each student.
+*/
 #include <iostream>
 #include <string>
 
@@ -42,7 +45,7 @@ private:
     string name;
     int id;
     double gpa;
-    string major; // New member variable for the student's major
+    string major;
 
 public:
     void setName(const string &studentName)
@@ -61,7 +64,7 @@ public:
     }
 
     void setMajor(const string &studentMajor)
-    { // New member function to set the major
+    {
         major = studentMajor;
     }
 
@@ -81,60 +84,100 @@ public:
     }
 
     string getMajor() const
-    { // New member function to get the major
+    {
         return major;
     }
 };
+
+// Function to swap two Student objects
+void swapStudents(Student &a, Student &b)
+{
+    Student temp = a;
+    a = b;
+    b = temp;
+}
+
+// Function to perform descending GPA sort on an array of Students
+void sortStudentsByGPA(Student students[], int numStudents)
+{
+    for (int i = 0; i < numStudents - 1; ++i)
+    {
+        for (int j = 0; j < numStudents - i - 1; ++j)
+        {
+            if (students[j].getGPA() < students[j + 1].getGPA())
+            {
+                swapStudents(students[j], students[j + 1]);
+            }
+        }
+    }
+}
 
 int main()
 {
     cout << "Welcome to the student information system!\n";
 
-    Student student;
+    int numStudents;
+    cout << "Enter the number of students: ";
+    cin >> numStudents;
+    cin.ignore(); // Consume the newline character
 
-    string name;
-    int id;
-    double gpa;
-    string major; // New variable for major
+    // Create an array of Student objects
+    Student *studentArray = new Student[numStudents];
 
-    // Input student information
-    cout << "Enter student name: ";
-    getline(cin, name);
-    student.setName(name);
-
-    cout << "Enter student ID: ";
-    cin >> id;
-    student.setID(id);
-
-    // Validate GPA input
-    do
+    // Input student information for each student
+    for (int i = 0; i < numStudents; ++i)
     {
-        cout << "Enter student GPA (0-4): ";
-        cin >> gpa;
-        if (gpa < 0 || gpa > 4)
+        string name;
+        int id;
+        double gpa;
+        string major;
+
+        cout << "\nEnter student " << (i + 1) << " information:\n";
+
+        cout << "Enter student name: ";
+        getline(cin, name);
+        studentArray[i].setName(name);
+
+        cout << "Enter student ID: ";
+        cin >> id;
+        studentArray[i].setID(id);
+
+        do
         {
-            cout << "Invalid GPA. Please enter a GPA between 0 and 4.\n";
-        }
-        else
-        {
-            student.setGPA(gpa);
-        }
-    } while (gpa < 0 || gpa > 4);
+            cout << "Enter student GPA (0-4): ";
+            cin >> gpa;
+            if (gpa < 0 || gpa > 4)
+            {
+                cout << "Invalid GPA. Please enter a GPA between 0 and 4.\n";
+            }
+        } while (gpa < 0 || gpa > 4);
+        studentArray[i].setGPA(gpa);
 
-    // Input student major
-    cout << "Enter student major: ";
-    cin.ignore(); // Ignore the newline character left in the input buffer
-    getline(cin, major);
-    student.setMajor(major);
+        cin.ignore(); // Consume the newline character
 
-    // Display student information
-    cout << "\nStudent Information:\n";
-    cout << "Name: " << student.getName() << "\n";
-    cout << "ID: " << student.getID() << "\n";
-    cout << "GPA: " << student.getGPA() << "\n";
-    cout << "Major: " << student.getMajor() << "\n";
+        cout << "Enter student major: ";
+        getline(cin, major);
+        studentArray[i].setMajor(major);
+    }
 
-    cout << "Thank you for using the student information system!\n";
+    // Sort students by GPA in descending order
+    sortStudentsByGPA(studentArray, numStudents);
+
+    // Display student information for all students
+    cout << "\nStudent Information (sorted by GPA in descending order):\n";
+    for (int i = 0; i < numStudents; ++i)
+    {
+        cout << "\nStudent " << (i + 1) << ":\n";
+        cout << "Name: " << studentArray[i].getName() << "\n";
+        cout << "ID: " << studentArray[i].getID() << "\n";
+        cout << "GPA: " << studentArray[i].getGPA() << "\n";
+        cout << "Major: " << studentArray[i].getMajor() << "\n";
+    }
+
+    // Clean up: Delete the dynamic array
+    delete[] studentArray;
+
+    cout << "\nThank you for using the student information system!\n";
 
     return 0;
 }
