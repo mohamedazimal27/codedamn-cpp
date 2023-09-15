@@ -27,6 +27,10 @@ Use the get member functions of the Student object to display the student's info
 Validate the user's input and ensure that the GPA is between 0 and 4. If the GPA is invalid, prompt the user to re-enter the GPA until it is valid.
 Print a message thanking the user for using the student information system.*/
 
+/*
+Modify the Student class to include a private member variable major, and public member functions setMajor
+and getMajor to allow the user to set and get the student's major.*/
+
 #include <iostream>
 #include <string>
 
@@ -38,6 +42,7 @@ private:
     string name;
     int id;
     double gpa;
+    string major; // New member variable for the student's major
 
 public:
     void setName(const string &studentName)
@@ -55,6 +60,11 @@ public:
         gpa = studentGPA;
     }
 
+    void setMajor(const string &studentMajor)
+    { // New member function to set the major
+        major = studentMajor;
+    }
+
     string getName() const
     {
         return name;
@@ -69,6 +79,11 @@ public:
     {
         return gpa;
     }
+
+    string getMajor() const
+    { // New member function to get the major
+        return major;
+    }
 };
 
 int main()
@@ -80,6 +95,7 @@ int main()
     string name;
     int id;
     double gpa;
+    string major; // New variable for major
 
     // Input student information
     cout << "Enter student name: ";
@@ -105,11 +121,18 @@ int main()
         }
     } while (gpa < 0 || gpa > 4);
 
+    // Input student major
+    cout << "Enter student major: ";
+    cin.ignore(); // Ignore the newline character left in the input buffer
+    getline(cin, major);
+    student.setMajor(major);
+
     // Display student information
     cout << "\nStudent Information:\n";
     cout << "Name: " << student.getName() << "\n";
     cout << "ID: " << student.getID() << "\n";
     cout << "GPA: " << student.getGPA() << "\n";
+    cout << "Major: " << student.getMajor() << "\n";
 
     cout << "Thank you for using the student information system!\n";
 
