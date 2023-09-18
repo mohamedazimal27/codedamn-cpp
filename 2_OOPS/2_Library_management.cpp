@@ -76,128 +76,296 @@ Implement the returnBook function to set the available member variable to true i
 In the main function, declare a dynamic array of Book objects with a maximum capacity of 100 books.
 Use if-else statements or a switch statement to prompt the user to add, remove, or search.
 */
+/*challengs
 
+Modify the Book class to include a private member variable description, and public member functions setDescription
+    and getDescription to allow the user to set and get a description of the book.
+Implement a search function that allows the user to search for books by title or author.
+Add a destructor to the Book class that prints a message indicating that the book object has been destroyed.*/
 #include <iostream>
-using namespace std;
+#include <string>
 
-class library
+class Book
 {
 private:
-    string title, author, isbn;
+    std::string title;
+    std::string author;
+    std::string isbn;
     bool available;
+    std ::string description;
 
 public:
-    void setTitle(string bookTitle)
+    // Constructors
+    Book() : title(""), author(""), isbn(""), available(true), description("") {}
+
+    // Member functions to set book details
+    void setTitle(const std::string &newTitle)
     {
-        title = bookTitle;
+        title = newTitle;
     }
-    void setAuthor(string bookAuthor)
+
+    void setAuthor(const std::string &newAuthor)
     {
-        author = bookAuthor;
+        author = newAuthor;
     }
-    void setISBN(string bookISBN)
+
+    void setISBN(const std::string &newISBN)
     {
-        isbn = bookISBN;
+        isbn = newISBN;
     }
-    void setAvailable(bool bookAvailability)
+
+    void setAvailable(bool isAvailable)
     {
-        available = bookAvailability;
+        available = isAvailable;
     }
-    string getTitle() const
+
+    // Member functions to get book details
+    std::string getTitle() const
     {
         return title;
     }
-    string getAuthor() const
+
+    std::string getAuthor() const
     {
         return author;
     }
-    string getISBN() const
+
+    std::string getISBN() const
     {
         return isbn;
     }
-    string getAvailable() const
+
+    std::string getAvailable() const
     {
-        if (available == 0)
-            return "true";
-        else
-            return "false";
+        return available ? "Available" : "Checked out";
     }
+
+    // Borrow a book
     void borrowBook()
     {
-        if (available == true)
+        if (available)
+        {
             available = false;
+        }
         else
-            cout << "Book is unavailable";
-    }
-    void returnBook()
-    {
-        if (available == false)
-            available = true;
-        else
-            cout << "Book is unavailable";
-    }
-};
-
-int main()
-{
-    // Get number of books need to be stored in library
-    cout << "Number of books to be stored in Library Management System(1-100): ";
-    int numBooks;
-    do
-    {
-        cin >> numBooks;
-        if (numBooks <= 0 || numBooks > 100)
-            cout << "Invalid choice selected" << endl;
-    } while (numBooks <= 0 || numBooks > 100);
-    // Create book object
-    library *books = new library[numBooks];
-    for (int i = 0; i < numBooks; i++)
-    {
-        cout << "******************************************" << endl;
-        cout << "Welcome to the library management system!" << endl;
-        cout << "******************************************" << endl;
-        cout << endl;
-        cout << "\tMenu:" << endl;
-        cout << "\t1. Add book" << endl;
-        cout << "\t2. Remove book" << endl;
-        cout << "\t3. Search for book" << endl;
-        cout << "\t4. Exit" << endl;
-        cout << endl;
-        string title, author, isbn;
-
-        uint choice;
-        do
         {
-            cout << "Enter your choice(1-4) : ";
-            cin >> choice;
-            if (choice <= 0 || choice > 4)
-                cout << "Invalid choice selected" << endl;
-        } while (choice <= 0 || choice > 4);
-        cout << "end";
-        switch (choice)
-        {
-        case 1:
-            cout << "Enter book title: ";
-            cin >> title;
-            books[i].setTitle(title);
-            cout << "Enter book author: ";
-            cin >> author;
-            books[i].setAuthor(author);
-            cout << "Enter book ISBN: ";
-            cin >> isbn;
-            books[i].setISBN(isbn);
-            cout << "Book added to library.break" << endl;
-            books[i].setAvailable(1);
-            break;
-
-        case 2:
-            cout << "Enter book ISBN: ";
-            cin >> isbn;
-            books[i].setISBN(isbn);
-        default:
-            break;
+            std::cout << "Error: Book is already checked out." << std::endl;
         }
     }
 
+    // Return a book
+    void returnBook()
+    {
+        if (!available)
+        {
+            available = true;
+        }
+        else
+        {
+            std::cout << "Error: Book is already available." << std::endl;
+        }
+    }
+    void set_description(const std::string &newDescription)
+    {
+        description = newDescription;
+    }
+    std::string getDescription() const
+    {
+        return description;
+    }
+};
+
+// Function to search for books by title or author
+void searchBooks(const Book library[], int numBooks)
+{
+    std::cout << "\nSearch Book by:" << std::endl;
+    std::cout << "1. ISBN" << std::endl;
+    std::cout << "2. Author" << std::endl;
+    std::cout << "3. Title" << std::endl;
+    int searchChoice;
+    std::cin >> searchChoice;
+    bool found = false;
+    std::string searchQuery;
+
+    switch (searchChoice)
+    {
+    case 1:
+        std::cout << "Enter book ISBN: ";
+        std::cin >> searchQuery;
+
+        for (int i = 0; i < numBooks; i++)
+        {
+            if (library[i].getISBN() == searchQuery)
+            {
+                found = true;
+                std::cout << "\nBook is Available" << std::endl;
+                std::cout << "Book Information:" << std::endl;
+                std::cout << "Title: " << library[i].getTitle() << std::endl;
+                std::cout << "Author: " << library[i].getAuthor() << std::endl;
+                std::cout << "ISBN: " << library[i].getISBN() << std::endl;
+                std::cout << "Description: " << library[i].getDescription() << std::endl;
+                std::cout << "Availability: " << library[i].getAvailable() << std::endl;
+                break;
+            }
+        }
+        if (!found)
+        {
+            std::cout << "Error: Book not found in library." << std::endl;
+        }
+        break;
+
+    case 2:
+        std::cout << "Enter book Author: ";
+        std::cin >> searchQuery;
+
+        for (int i = 0; i < numBooks; i++)
+        {
+            if (library[i].getAuthor() == searchQuery)
+            {
+                found = true;
+                std::cout << "\nBook is Available" << std::endl;
+                std::cout << "Book Information:" << std::endl;
+                std::cout << "Title: " << library[i].getTitle() << std::endl;
+                std::cout << "Author: " << library[i].getAuthor() << std::endl;
+                std::cout << "ISBN: " << library[i].getISBN() << std::endl;
+                std::cout << "Description: " << library[i].getDescription() << std::endl;
+                std::cout << "Availability: " << library[i].getAvailable() << std::endl;
+                break;
+            }
+        }
+        if (!found)
+        {
+            std::cout << "Error: Book not found in library." << std::endl;
+        }
+        break;
+
+    case 3:
+        std::cout << "Enter book Title: ";
+        std::cin >> searchQuery;
+
+        for (int i = 0; i < numBooks; i++)
+        {
+            if (library[i].getTitle() == searchQuery)
+            {
+                found = true;
+                std::cout << "\nBook is Available" << std::endl;
+                std::cout << "Book Information:" << std::endl;
+                std::cout << "Title: " << library[i].getTitle() << std::endl;
+                std::cout << "Author: " << library[i].getAuthor() << std::endl;
+                std::cout << "ISBN: " << library[i].getISBN() << std::endl;
+                std::cout << "Description: " << library[i].getDescription() << std::endl;
+                std::cout << "Availability: " << library[i].getAvailable() << std::endl;
+                break;
+            }
+        }
+        if (!found)
+        {
+            std::cout << "Error: Book not found in library." << std::endl;
+        }
+        break;
+
+    default:
+        std::cout << "Invalid choice. Please enter a valid option." << std::endl;
+        break;
+    }
+}
+
+int main()
+{
+    const int maxBooks = 100;
+    Book library[maxBooks];
+    int numBooks = 0;
+    Book newBook; // Declare newBook outside the switch block
+
+    std::cout << "Welcome to the library management system!" << std::endl;
+
+    while (true)
+    {
+        std::cout << "\nMenu:" << std::endl;
+        std::cout << "1. Add book" << std::endl;
+        std::cout << "2. Remove book" << std::endl;
+        std::cout << "3. Search for book" << std::endl;
+        std::cout << "4. Exit" << std::endl;
+
+        int choice;
+        do
+        {
+            std::cout << "Enter your choice: ";
+            std::cin >> choice;
+            if (choice < 0 || choice > 4)
+                std::cout << "Invalid choice selected" << std::endl;
+        } while (choice < 0 || choice > 4);
+
+        switch (choice)
+        {
+        case 1:
+        {
+            if (numBooks < maxBooks)
+            {
+                std::string title, author, isbn, description;
+                std::cout << "Enter book title: ";
+                std::cin.ignore();
+                std::getline(std::cin, title);
+                std::cout << "Enter book author: ";
+                std::getline(std::cin, author);
+                std::cout << "Enter book description: ";
+                std::getline(std::cin, description);
+                std::cout << "Enter book ISBN: ";
+                std::cin >> isbn;
+
+                newBook.setTitle(title);
+                newBook.setAuthor(author);
+                newBook.setISBN(isbn);
+                newBook.set_description(description);
+
+                library[numBooks] = newBook;
+                numBooks++;
+
+                std::cout << "Book added to library." << std::endl;
+            }
+            else
+            {
+                std::cout << "Error: Library is at maximum capacity." << std::endl;
+            }
+            break;
+        }
+        case 2:
+        {
+            std::string isbn;
+            std::cout << "Enter book ISBN: ";
+            std::cin >> isbn;
+            bool found = false;
+            for (int i = 0; i < numBooks; i++)
+            {
+                if (library[i].getISBN() == isbn)
+                {
+                    found = true;
+                    library[i].returnBook();
+                    std::cout << "Book removed from library." << std::endl;
+                    break;
+                }
+            }
+
+            if (!found)
+            {
+                std::cout << "Error: Book not found in library." << std::endl;
+            }
+            break;
+        }
+        case 3:
+        {
+            searchBooks(library, numBooks);
+            break;
+        }
+        case 4:
+        {
+            std::cout << "Thank you for using the library management system!" << std::endl;
+            return 0;
+        }
+        default:
+            std::cout << "Invalid choice. Please enter a valid option." << std::endl;
+            break;
+        }
+    }
     return 0;
 }
