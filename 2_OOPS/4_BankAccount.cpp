@@ -42,9 +42,9 @@ private:
     float balance;
     std::string *transactionHistory;
     int transactionCount;
-    const int maxTransactions = 100;
 
 public:
+    const int maxTransactions = 100;
     BankAccount(const std::string &accNumber, const std::string &accHolder, float initialBalance, int maxTrans = 100)
         : accountNumber(accNumber), accountHolder(accHolder), balance(initialBalance), maxTransactions(maxTrans)
     {
