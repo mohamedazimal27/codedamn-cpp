@@ -138,6 +138,15 @@ public:
 
 int main()
 {
-
+    // Create BankAccount objects
+    BankAccount acc1("12345", "Alice", "Savings", 1000.0);
+    BankAccount acc2("67890", "Bob", "Checking", 2000.0);
+    double amount = 0.0;
+    std::cout << "Enter amount to deposit: " << std::endl;
+    std::cin >> amount;
+    acc1.deposit(amount);
+    std::cout << "Enter amount to withdraw: " << std::endl;
+    std::cin >> amount;
+    acc1.withdraw(amount);
     return 0;
 }
