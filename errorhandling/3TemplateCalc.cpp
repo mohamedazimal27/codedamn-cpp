@@ -40,13 +40,20 @@ public:
   T divide(T num1, T num2)
   {
     if (num2 == 0)
-        throw "Divisible by zero not possible"
+    {
+        throw "Divisible by zero not possible";
         return 0;
+    }
     return num1 / num2;
   }
   T modulus(T num1, T num2)
   {
-    return num1 % num2;
+    if (num2 == 0)
+    {
+        throw "Divisible by zero not possible";
+        return 0;
+    }
+      return num1 % num2;
   }
 };
 
@@ -58,7 +65,21 @@ int main(){
     cout << "Sum: " << calculator.add(a,b) << endl;
     cout << "Subtract: " << calculator.subtract(a,b) << endl;
     cout << "Multiply: " << calculator.multiply(a,b) << endl;
-    cout << "Divide: " << calculator.divide(a,b) << endl;
-    cout << "Modulus: " << calculator.modulus(a,b) << endl;
+    try
+    {
+        cout << "Divide: " << calculator.divide(a, b) << endl;
+    }
+    catch (const char *e)
+    {
+        cout << e << endl;
+    }
+    try
+    {
+        cout << "Modulus: " << calculator.modulus(a,b) << endl;
+    }
+    catch (const char *e)
+    {
+        cout << e << endl;
+    }
     return 0;
 }
