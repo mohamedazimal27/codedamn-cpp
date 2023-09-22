@@ -17,9 +17,9 @@ Use a string container to store the selected word and the user's guesses.
 
 int main()
 {
-    //Create a array of string of words
+    // Create a array of string of words
     std::string arrStr[] = {"Apple", "Orange", "Cat", "Dog", "Animal", "Love", "Money", "Care", "Gold", "Paradise"};
-    
+
     // Seed the random number generator
     std::random_device rd;
     std::mt19937 gen(rd());
@@ -31,34 +31,52 @@ int main()
     int random_number = distribution(gen);
     std::string guessWord = arrStr[random_number];
 
-    //Display dashes w.r.t words
+    // Display dashes w.r.t words
     for (int i = 0; i < guessWord.length(); i++)
     {
         std::cout << "_ ";
     }
     std::cout << std::endl;
 
-    //Take input from user
+    // Take input from user
     char userChar;
-    std::cout << "Enter a char: ";
-    std::cin >> userChar;
-    bool charFound = false;
-    
-    //Check user input present in guess word
+    bool notFound = false;
+    bool idxfound[guessWord.length()] = {false};
+    char guessedChar[guessWord.length()];
     for (int i = 0; i < guessWord.length(); i++)
     {
-        if (guessWord[i] == userChar)
-            charFound = true;
+        guessedChar[i] = {'_'};
     }
 
-    //Replace the dash with matching user input
-    for (int i = 0; i < guessWord.length(); i++)
+    while (!notFound)
     {
-        if (guessWord[i] == userChar)
-            std::cout << "_ ";
-        else
-            std::cout << userChar << " ";
+        std::cout << "Enter a char: ";
+        std::cin >> userChar;
+        notFound = true;
+
+        // Replace the dash with matching user input
+        for (int i = 0; i < guessWord.length(); i++)
+        {
+            if (guessWord[i] == userChar)
+            {
+                guessedChar[i] = userChar;
+                std::cout << guessedChar[i] << " ";
+                idxfound[i] = true;
+            }
+            else
+                std::cout << guessedChar[i] << " ";
+        }
+        std::cout << std::endl;
+        // Check user input present in guess word
+        // Check each element in the array
+        for (int i = 0; i < guessWord.length(); i++)
+        {
+            if (!idxfound[i])
+            {
+                notFound = false; // Found a false element, set allTrue to false
+                break;            // No need to continue checking, we already know not all elements are true
+            }
+        }
     }
-    std::cout << std::endl;
     return 0;
 }
